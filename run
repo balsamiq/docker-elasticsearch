@@ -26,8 +26,14 @@ fi
 	cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
 discovery:
   type: ec2
-  ec2:
-    groups: $ES_CLUSTER_NAME
 EOF
+
+if [ "$ES_AWS_GROUP" != "" ] ; then
+cat >> /opt/elasticsearch/config/elasticsearch.yml << EOF
+  ec2:
+    groups: $ES_AWS_GROUP
+EOF
+fi
+
 fi
 /usr/bin/supervisord -c /etc/supervisor/conf.d/elasticsearch.conf
